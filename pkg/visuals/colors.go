@@ -1,5 +1,6 @@
 package visuals
 
+// Struct for our terminal colors
 type TerminalColors struct {
 	ANSI_BG      string
 	ANSI_FG      string
@@ -17,6 +18,10 @@ type TerminalColors struct {
 	RED          string
 	YELLOW       string
 }
+
+// Color list from original project.
+// Color codes are all from :
+// https://en.wikipedia.org/wiki/Dracula_(color_scheme)
 
 var Colors = TerminalColors{
 	ANSI_BG:      "\033[48;2;",
