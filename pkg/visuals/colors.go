@@ -1,0 +1,37 @@
+package visuals
+
+type TerminalColors struct {
+	ANSI_BG      string
+	ANSI_FG      string
+	ANSI_BOLD    string
+	ANSI_RESET   string
+	BACKGROUND   string
+	CURRENT_LINE string
+	FOREGROUND   string
+	COMMENT      string
+	CYAN         string
+	GREEN        string
+	ORANGE       string
+	PINK         string
+	PURPLE       string
+	RED          string
+	YELLOW       string
+}
+
+var Colors = TerminalColors{
+	ANSI_BG:      "\033[48;2;",
+	ANSI_FG:      "\033[38;2;",
+	ANSI_RESET:   "\033[0m",
+	BACKGROUND:   "\033[48;2;40;42;54m",
+	CURRENT_LINE: "\033[48;2;68;71;90m",
+	FOREGROUND:   "\033[38;2;248;248;242m",
+	COMMENT:      "\033[38;2;98;114;164m",
+	CYAN:         "\033[38;2;139;233;253m",
+	GREEN:        "\033[38;2;80;250;123m",
+	ORANGE:       "\033[38;2;255;184;108m",
+	PINK:         "\033[38;2;255;121;198m",
+	PURPLE:       "\033[38;2;189;147;249m",
+	RED:          "\033[38;2;255;85;85m",
+	YELLOW:       "\033[38;2;241;250;140m",
+	ANSI_BOLD:    "\u001B[1m",
+}
