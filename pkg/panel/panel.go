@@ -1,6 +1,7 @@
 package panel
 
 import (
+	"Sovereign/pkg/visuals"
 	"bufio"
 	"fmt"
 	"os"
@@ -15,6 +16,18 @@ func CreatePanel() {
 	fmt.Println("***********************")
 	fmt.Println("* Client Panel Switch *")
 	fmt.Println("***********************")
+	fmt.Println()
+	fmt.Println(
+		visuals.Colors.CYAN+"x",
+		visuals.Colors.GREEN+"x",
+		visuals.Colors.ORANGE+"x",
+		visuals.Colors.PINK+"x",
+		visuals.Colors.PURPLE+"x",
+		visuals.Colors.RED+"x",
+		visuals.Colors.YELLOW+"x",
+		visuals.Colors.BLACK+"x",
+		visuals.Colors.ANSI_RESET,
+	)
 	fmt.Println()
 	fmt.Println("commands: ping, connect, quit")
 
