@@ -22,12 +22,16 @@ func Draw() {
 
 	fmt.Println()
 
+	// Old logo print method, line by line
 	/*
 		for scanner.Scan() {
 			line := scanner.Text()
 			fmt.Println(Colors.RED + line + Colors.ANSI_RESET)
 		}
 	*/
+
+	// New logo print method, one char at a time for more
+	// accurate color control.
 	for scanner.Scan() {
 		line := scanner.Text()
 		for _, char := range line {
