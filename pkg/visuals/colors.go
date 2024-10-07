@@ -17,6 +17,7 @@ type TerminalColors struct {
 	PURPLE       string
 	RED          string
 	YELLOW       string
+	BLACK        string
 }
 
 // Color list from original project.
@@ -38,5 +39,6 @@ var Colors = TerminalColors{
 	PURPLE:       "\033[38;2;189;147;249m",
 	RED:          "\033[38;2;255;85;85m",
 	YELLOW:       "\033[38;2;241;250;140m",
+	BLACK:        "\033[38;2;28;28;28m",
 	ANSI_BOLD:    "\u001B[1m",
 }
