@@ -3,21 +3,19 @@ package main
 import (
 	"Sovereign/pkg/panel"
 	"Sovereign/pkg/visuals"
-	"fmt"
 	"time"
 )
 
 func main() {
-	// Clear the screen
-	fmt.Print("\033[H\033[2J")
-
-	// Print Sovereign ascii logo to the screen
+	// Clear screen, check class for the voodoo printed
+	visuals.ClearScreen()
+	// Print Sovereign ascii logo to the screen, 2 sec
 	visuals.Draw()
 	time.Sleep(2000 * time.Millisecond)
-
-	// Clear the screen
-	fmt.Print("\033[H\033[2J")
+	visuals.ClearScreen()
 
 	// Initialize client interface potentially rename to gocui terms
+	// maybe should be in visuals pkg or something, and put the
+	// switch somewhere else. dunno
 	panel.CreatePanel()
 }
