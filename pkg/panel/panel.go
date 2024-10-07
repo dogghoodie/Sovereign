@@ -7,6 +7,8 @@ import (
 	"strings"
 )
 
+//TODO: Fuck this and get gocui working
+
 // Function creates our main client panel
 func CreatePanel() {
 	// Temporary design just for now
@@ -33,6 +35,7 @@ func CreatePanel() {
 			fmt.Println()
 		// Start a connection with another user
 		case "connect":
+			//TODO: Make this actually do some shit.
 			fmt.Println("Add connections menu here.")
 			fmt.Println()
 		// Quit application

@@ -14,8 +14,10 @@ func main() {
 	time.Sleep(2000 * time.Millisecond)
 	visuals.ClearScreen()
 
-	// Initialize client interface potentially rename to gocui terms
-	// maybe should be in visuals pkg or something, and put the
-	// switch somewhere else. dunno
+	// Initialize client interface
 	panel.CreatePanel()
+
+	//TODO: Go over plans written in each file.
+	//		Discuss.
+
 }

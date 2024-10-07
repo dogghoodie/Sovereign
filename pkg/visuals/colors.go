@@ -20,6 +20,8 @@ type TerminalColors struct {
 	BLACK        string
 }
 
+//TODO: Determine if we want to keep this color scheme
+
 // Color list from original project.
 // Color codes are all from :
 // https://en.wikipedia.org/wiki/Dracula_(color_scheme)
