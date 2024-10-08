@@ -1,1 +1,1 @@
-go run cmd/client/main.go
+clear && go run cmd/client/main.go
