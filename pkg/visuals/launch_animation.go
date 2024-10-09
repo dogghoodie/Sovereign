@@ -80,23 +80,54 @@ func getBlockCoordinates(blockLetter string, coordMap map[rune][][]int) map[rune
 
 // Print character to terminal at specified coordinates
 func printAtCoordinate(row, col int, char rune) {
-	fmt.Printf("\033[%d;%dH%s", row, col, string(char)) // Move cursor and print
+	fmt.Printf(Colors.RED + "\033[%d;%dH%s", row, col, string(char) + Colors.ANSI_RESET) // Move cursor and print
 }
 
-// Function to animate a block positively by filling chars randomly
+
+// Function to animate a block positively by filling chars randomly (with separate fillChars for each character type)
 func positiveLetter(blockLetter string, coordMap map[rune][][]int, delay time.Duration) {
 	timeTotal := 2*time.Second - delay
 	time.Sleep(delay)
 
 	startTime := time.Now()
-	for time.Since(startTime) < timeTotal {
-		for _, coord := range append(coordMap['$'], coordMap['/']...) { //, coordMap['\\'], coordMap['|'], coordMap['_']) { // Combine coord lists of interest
-			row, col := coord[0], coord[1]
-			randomChar := fillChars[rand.Intn(len(fillChars))]
-			printAtCoordinate(row, col, randomChar)
-			time.Sleep(10 * time.Millisecond)
+
+	// Define different fillChars strings for each charType
+	fillCharsMap := map[rune]string{
+		'$': "$qwertyughlodkrasd", // Fill characters for '$'
+		'/': "7/", // Fill characters for '/'
+		'\\': "\\>", // Fill characters for '\\'
+		'|': "lI|[}{[", // Fill characters for '|'
+		'_': "=-~", // Fill characters for '_'
+	}
+
+	// Function to animate a specific character type's coordinates
+	animateCharType := func(charCoords [][]int, fillChars string) {
+		for time.Since(startTime) < timeTotal {
+			for _, coord := range charCoords {
+				row, col := coord[0], coord[1]
+				randomChar := rune(fillChars[rand.Intn(len(fillChars))])
+				printAtCoordinate(row, col, randomChar)
+				time.Sleep(10 * time.Millisecond)
+			}
 		}
 	}
+
+	// Create a WaitGroup to wait for all Goroutines
+	var wg sync.WaitGroup
+
+	// Launch separate Goroutines for each character type of interest
+	for _, charType := range []rune{'$', '/', '\\', '|', '_'} {
+		if coords, ok := coordMap[charType]; ok {
+			wg.Add(1) // Increment the WaitGroup counter
+			go func(charCoords [][]int, fillChars string) {
+				defer wg.Done() // Decrement the counter when the Goroutine finishes
+				animateCharType(charCoords, fillChars)
+			}(coords, fillCharsMap[charType])
+		}
+	}
+
+	// Wait for all Goroutines to finish
+	wg.Wait()
 }
 
 // Function to animate a block negatively by filling space coordinates
@@ -125,7 +156,8 @@ func animateBlocks(blockList []string, coordMap map[rune][][]int) {
 			defer wg.Done() // Decrement the counter when the goroutine finishes
 			blockCoords := getBlockCoordinates(blockLetter, coordMap)
 			delay := time.Duration(rand.Intn(950)+50) * time.Millisecond
-			if rand.Float64() > 0.4 {
+			if rand.Float64() > 0.5 || blockLetter=="e1" || blockLetter=="e2" || 
+			blockLetter=="o" || blockLetter=="S" || blockLetter=="g" {
 				positiveLetter(blockLetter, blockCoords, delay)
 			} else {
 				negativeLetter(blockLetter, blockCoords, delay)

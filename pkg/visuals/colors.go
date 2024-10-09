@@ -18,6 +18,7 @@ type TerminalColors struct {
 	RED          string
 	YELLOW       string
 	BLACK        string
+	WHITE        string
 }
 
 //TODO: Determine if we want to keep this color scheme
@@ -42,5 +43,6 @@ var Colors = TerminalColors{
 	RED:          "\033[38;2;255;85;85m",
 	YELLOW:       "\033[38;2;241;250;140m",
 	BLACK:        "\033[38;2;28;28;28m",
+	WHITE:        "\033[38;2;255;255;255m",
 	ANSI_BOLD:    "\u001B[1m",
 }
