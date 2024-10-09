@@ -12,6 +12,9 @@ type TerminalColors struct {
 	COMMENT      string
 	CYAN         string
 	GREEN        string
+	MATRIX1      string
+	MATRIX2      string
+	MATRIX3      string
 	ORANGE       string
 	PINK         string
 	PURPLE       string
@@ -24,7 +27,7 @@ type TerminalColors struct {
 	WHITE4       string
 }
 
-//TODO: Determine if we want to keep this color scheme
+//TODO: Solve gocui color limit issue or simplify theme
 
 // Color list from original project.
 // Color codes are all from :
@@ -41,6 +44,9 @@ var Colors = TerminalColors{
 	COMMENT:      "\033[38;2;98;114;164m",
 	CYAN:         "\033[38;2;139;233;253m",
 	GREEN:        "\033[38;2;80;250;123m",
+	MATRIX1:      "\033[38;2;57;255;20m",
+	MATRIX2:      "\033[38;2;80;200;120m",
+	MATRIX3:      "\033[38;2;0;128;0m",
 	ORANGE:       "\033[38;2;255;184;108m",
 	PINK:         "\033[38;2;255;121;198m",
 	PURPLE:       "\033[38;2;189;147;249m",
@@ -48,7 +54,7 @@ var Colors = TerminalColors{
 	YELLOW:       "\033[38;2;241;250;140m",
 	BLACK:        "\033[38;2;28;28;28m",
 	WHITE:        "\033[38;2;255;255;255m",
-	WHITE2:       "\033[38;2;200;200;200m",
-	WHITE3:       "\033[38;2;155;155;155m",
-	WHITE4:       "\033[38;2;145;145;145m",
+	WHITE2:       "\033[38;2;230;230;230m",
+	WHITE3:       "\033[38;2;195;195;195m",
+	WHITE4:       "\033[38;2;175;175;175m",
 }

@@ -25,8 +25,6 @@ func (g *GUI) Start() {
 
 	g.gui.SetManagerFunc(g.layout)
 
-	//TODO: Move these into a keybindings functions and add movement keys hjkl & arrows
-
 	// Bind Ctrl+C to quit program
 	if err := g.gui.SetKeybinding("", gocui.KeyCtrlC, gocui.ModNone, g.quit); err != nil {
 		log.Panicln(err)
@@ -64,15 +62,15 @@ func (g *GUI) layout(gui *gocui.Gui) error {
 		}
 		// Testing layout
 		connectionsTab.Title = "Connections"
+		connectionsTab.FgColor = gocui.ColorGreen
 		connectionsTab.Frame = true
-		connectionsTab.Highlight = true
-		connectionsTab.SelFgColor = gocui.ColorGreen
+		connectionsTab.FgColor = gocui.ColorWhite
 
-		fmt.Fprintln(connectionsTab, "\033[32m")
+		fmt.Fprintln(connectionsTab)
 		fmt.Fprintln(connectionsTab, " [1] 127.0.0.1")
 		fmt.Fprintln(connectionsTab)
 		fmt.Fprintln(connectionsTab, " [2] 127.0.0.1")
-		fmt.Fprintln(connectionsTab, "\033[31m")
+		fmt.Fprintln(connectionsTab)
 		fmt.Fprintln(connectionsTab, " [3] 127.0.0.1")
 	}
 
