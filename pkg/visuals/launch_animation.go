@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"math/rand"
 	"os"
-	"time"
 	"sync"
+	"time"
 )
 
 // Define character of interest
@@ -14,15 +14,15 @@ var charsOfInterest = []rune{'$', '/', '\\', '|', '_', ' '}
 
 // Define blocks and their coordinates
 var blockCoordinates = map[string][2][2]int{
-	"S": {{1, 1}, {10, 12}},
-	"o": {{3, 13}, {10, 22}},
-	"v": {{3, 23}, {10, 33}},
+	"S":  {{1, 1}, {10, 12}},
+	"o":  {{3, 13}, {10, 22}},
+	"v":  {{3, 23}, {10, 33}},
 	"e1": {{3, 33}, {10, 42}},
-	"r": {{3, 42}, {10, 52}},
+	"r":  {{3, 42}, {10, 52}},
 	"e2": {{3, 53}, {10, 62}},
-	"i": {{1, 63}, {10, 66}},
-	"g": {{3, 67}, {13, 76}},
-	"n": {{3, 77}, {10, 86}},
+	"i":  {{1, 63}, {10, 66}},
+	"g":  {{3, 67}, {13, 76}},
+	"n":  {{3, 77}, {10, 86}},
 }
 
 // Fill characters
@@ -80,18 +80,23 @@ func getBlockCoordinates(blockLetter string, coordMap map[rune][][]int) map[rune
 
 // Print character to terminal at specified coordinates
 func printAtCoordinate(row, col int, char rune) {
-	defined_origin := []int{0,0}
+	defined_origin := []int{0, 0}
 	// Define an array or slice of the available white colors
-	colorOptions := []string{Colors.WHITE, Colors.WHITE2, Colors.WHITE3, Colors.WHITE4}
+	colorOptions := []string{
+		//	Just fucking around with the colors, the matrix
+		//	theme is actually pretty sick looking.
+		//	Colors.WHITE, Colors.WHITE2,
+		//	Colors.WHITE3, Colors.WHITE4}
+		Colors.MATRIX1, Colors.MATRIX2,
+		Colors.MATRIX3, Colors.GREEN}
 
 	// Pick a random color from the array
 	chosenColor := colorOptions[rand.Intn(len(colorOptions))]
 
 	// Print with the randomly chosen color
-	fmt.Printf(chosenColor + "\033[%d;%dH%s", defined_origin[0] + row, defined_origin[1] + col, string(char) + Colors.ANSI_RESET)
+	fmt.Printf(chosenColor+"\033[%d;%dH%s", defined_origin[0]+row, defined_origin[1]+col, string(char)+Colors.ANSI_RESET)
 
 }
-
 
 // Function to animate a block positively by filling chars randomly (with separate fillChars for each character type)
 func positiveLetter(blockLetter string, coordMap map[rune][][]int, delay time.Duration) {
@@ -102,11 +107,11 @@ func positiveLetter(blockLetter string, coordMap map[rune][][]int, delay time.Du
 
 	// Define different fillChars strings for each charType
 	fillCharsMap := map[rune]string{
-		'$': "$qwertyughlodkrasd", // Fill characters for '$'
-		'/': "7/", // Fill characters for '/'
-		'\\': "\\>", // Fill characters for '\\'
-		'|': "lI|[}{[", // Fill characters for '|'
-		'_': "=-~", // Fill characters for '_'
+		'$':  "$qwertyughlodkrasd", // Fill characters for '$'
+		'/':  "7/",                 // Fill characters for '/'
+		'\\': "\\>",                // Fill characters for '\\'
+		'|':  "lI|[}{[",            // Fill characters for '|'
+		'_':  "=-~",                // Fill characters for '_'
 	}
 
 	// Function to animate a specific character type's coordinates
@@ -140,6 +145,7 @@ func positiveLetter(blockLetter string, coordMap map[rune][][]int, delay time.Du
 }
 
 // Function to animate a block negatively by filling space coordinates
+// TODO: Figure out this unused blockLetter
 func negativeLetter(blockLetter string, coordMap map[rune][][]int, delay time.Duration) {
 	timeTotal := 2*time.Second - delay
 	time.Sleep(delay)
@@ -165,8 +171,8 @@ func animateBlocks(blockList []string, coordMap map[rune][][]int) {
 			defer wg.Done() // Decrement the counter when the goroutine finishes
 			blockCoords := getBlockCoordinates(blockLetter, coordMap)
 			delay := time.Duration(rand.Intn(950)+50) * time.Millisecond
-			if rand.Float64() > 0.5 || blockLetter=="e1" || blockLetter=="e2" || 
-			blockLetter=="o" || blockLetter=="S" || blockLetter=="g" {
+			if rand.Float64() > 0.5 || blockLetter == "e1" || blockLetter == "e2" ||
+				blockLetter == "o" || blockLetter == "S" || blockLetter == "g" {
 				positiveLetter(blockLetter, blockCoords, delay)
 			} else {
 				negativeLetter(blockLetter, blockCoords, delay)
@@ -177,8 +183,8 @@ func animateBlocks(blockList []string, coordMap map[rune][][]int) {
 	wg.Wait() // Wait for all Goroutines to finish before exiting
 }
 
-
 func Animate_call() {
+	// TODO: Update this to New(NewSource(seed))
 	rand.Seed(time.Now().UnixNano())
 	// Read the ASCII art file into a 2D array
 	array2D := readFileInto2DArray("resources/logo.txt")
