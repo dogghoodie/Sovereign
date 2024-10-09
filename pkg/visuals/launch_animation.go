@@ -6,6 +6,7 @@ import (
 	"math/rand"
 	"os"
 	"time"
+	"sync"
 )
 
 // Define character of interest
@@ -25,7 +26,7 @@ var blockCoordinates = map[string][2][2]int{
 }
 
 // Fill characters
-var fillChars = []rune("qwertyughlodkrasd")
+var fillChars = []rune("qwertyughlodkrasd:,.'")
 
 // Function to read the text file and populate a 2D array
 func readFileInto2DArray(filePath string) [][]rune {
@@ -89,7 +90,7 @@ func positiveLetter(blockLetter string, coordMap map[rune][][]int, delay time.Du
 
 	startTime := time.Now()
 	for time.Since(startTime) < timeTotal {
-		for _, coord := range append(coordMap['$'], coordMap['/']...) { // Combine coord lists of interest
+		for _, coord := range append(coordMap['$'], coordMap['/']...) { //, coordMap['\\'], coordMap['|'], coordMap['_']) { // Combine coord lists of interest
 			row, col := coord[0], coord[1]
 			randomChar := fillChars[rand.Intn(len(fillChars))]
 			printAtCoordinate(row, col, randomChar)
@@ -114,18 +115,27 @@ func negativeLetter(blockLetter string, coordMap map[rune][][]int, delay time.Du
 	}
 }
 
-// Main function to process blocks and animate them
+// Main function to process blocks and animate them concurrently
 func animateBlocks(blockList []string, coordMap map[rune][][]int) {
+	var wg sync.WaitGroup // WaitGroup to wait for all goroutines to finish
+
 	for _, blockLetter := range blockList {
-		blockCoords := getBlockCoordinates(blockLetter, coordMap)
-		delay := time.Duration(rand.Intn(450)+50) * time.Millisecond
-		if rand.Float64() > 0.3 {
-			positiveLetter(blockLetter, blockCoords, delay)
-		} else {
-			negativeLetter(blockLetter, blockCoords, delay)
-		}
+		wg.Add(1) // Increment the WaitGroup counter
+		go func(blockLetter string) {
+			defer wg.Done() // Decrement the counter when the goroutine finishes
+			blockCoords := getBlockCoordinates(blockLetter, coordMap)
+			delay := time.Duration(rand.Intn(950)+50) * time.Millisecond
+			if rand.Float64() > 0.4 {
+				positiveLetter(blockLetter, blockCoords, delay)
+			} else {
+				negativeLetter(blockLetter, blockCoords, delay)
+			}
+		}(blockLetter) // Pass blockLetter to the Goroutine
 	}
+
+	wg.Wait() // Wait for all Goroutines to finish before exiting
 }
+
 
 func Animate_call() {
 	rand.Seed(time.Now().UnixNano())
