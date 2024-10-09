@@ -80,7 +80,15 @@ func getBlockCoordinates(blockLetter string, coordMap map[rune][][]int) map[rune
 
 // Print character to terminal at specified coordinates
 func printAtCoordinate(row, col int, char rune) {
-	fmt.Printf(Colors.RED + "\033[%d;%dH%s", row, col, string(char) + Colors.ANSI_RESET) // Move cursor and print
+	// Define an array or slice of the available white colors
+	colorOptions := []string{Colors.WHITE, Colors.WHITE2, Colors.WHITE3, Colors.WHITE4}
+
+	// Pick a random color from the array
+	chosenColor := colorOptions[rand.Intn(len(colorOptions))]
+
+	// Print with the randomly chosen color
+	fmt.Printf(chosenColor + "\033[%d;%dH%s", row, col, string(char) + Colors.ANSI_RESET)
+
 }
 
 
