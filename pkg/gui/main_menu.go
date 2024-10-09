@@ -25,6 +25,8 @@ func (g *GUI) Start() {
 
 	g.gui.SetManagerFunc(g.layout)
 
+	//TODO: Move these into a keybindings functions and add movement keys hjkl & arrows
+
 	// Bind Ctrl+C to quit program
 	if err := g.gui.SetKeybinding("", gocui.KeyCtrlC, gocui.ModNone, g.quit); err != nil {
 		log.Panicln(err)
@@ -44,48 +46,52 @@ func (g *GUI) Start() {
 func (g *GUI) layout(gui *gocui.Gui) error {
 	maxX, maxY := gui.Size()
 
-	if v, err := gui.SetView("settings", 0, 0, maxX/2-20, 14); err != nil {
+	if settingsTab, err := gui.SetView("settings", 0, 0, maxX/2-20, 14); err != nil {
 		if err != gocui.ErrUnknownView {
 			return err
 		}
 		// Testing layout
-		v.Title = "Settings"
-		fmt.Fprintln(v)
-		fmt.Fprintln(v, "Host: 127.0.0.1")
-		fmt.Fprintln(v, "Port: 12345")
-		fmt.Fprintln(v, "Seed: XXXXX")
+		settingsTab.Title = "Settings"
+		fmt.Fprintln(settingsTab)
+		fmt.Fprintln(settingsTab, "Host: 127.0.0.1")
+		fmt.Fprintln(settingsTab, "Port: 12345")
+		fmt.Fprintln(settingsTab, "Seed: XXXXX")
 	}
 
-	if v, err := gui.SetView("connections", 0, 15, maxX/2-20, maxY-1); err != nil {
+	if connectionsTab, err := gui.SetView("connections", 0, 15, maxX/2-20, maxY-1); err != nil {
 		if err != gocui.ErrUnknownView {
 			return err
 		}
 		// Testing layout
-		v.Title = "Connections"
-		fmt.Fprintln(v)
-		fmt.Fprintln(v, " [1] 127.0.0.1")
-		fmt.Fprintln(v)
-		fmt.Fprintln(v, " [2] 127.0.0.1")
-		fmt.Fprintln(v)
-		fmt.Fprintln(v, " [3] 127.0.0.1")
+		connectionsTab.Title = "Connections"
+		connectionsTab.Frame = true
+		connectionsTab.Highlight = true
+		connectionsTab.SelFgColor = gocui.ColorGreen
+
+		fmt.Fprintln(connectionsTab, "\033[32m")
+		fmt.Fprintln(connectionsTab, " [1] 127.0.0.1")
+		fmt.Fprintln(connectionsTab)
+		fmt.Fprintln(connectionsTab, " [2] 127.0.0.1")
+		fmt.Fprintln(connectionsTab, "\033[31m")
+		fmt.Fprintln(connectionsTab, " [3] 127.0.0.1")
 	}
 
-	if v, err := gui.SetView("chatbox", maxX/2-18, 0, maxX-1, maxY-6); err != nil {
+	if chatboxTab, err := gui.SetView("chat", maxX/2-18, 0, maxX-1, maxY-6); err != nil {
 		if err != gocui.ErrUnknownView {
 			return err
 		}
-		v.Title = "Conversation"
-		fmt.Fprintln(v)
-		fmt.Fprintln(v, " ")
+		chatboxTab.Title = "Conversation"
+		fmt.Fprintln(chatboxTab)
+		fmt.Fprintln(chatboxTab, " ")
 	}
 
-	if v, err := gui.SetView("messagebox", maxX/2-18, maxY-5, maxX-1, maxY-1); err != nil {
+	if messageTab, err := gui.SetView("message", maxX/2-18, maxY-5, maxX-1, maxY-1); err != nil {
 		if err != gocui.ErrUnknownView {
 			return err
 		}
-		v.Title = "Message"
-		fmt.Fprintln(v)
-		fmt.Fprintln(v, " ")
+		messageTab.Title = "Message"
+		fmt.Fprintln(messageTab)
+		fmt.Fprintln(messageTab, " ")
 	}
 	return nil
 }
