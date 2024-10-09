@@ -80,7 +80,16 @@ func getBlockCoordinates(blockLetter string, coordMap map[rune][][]int) map[rune
 
 // Print character to terminal at specified coordinates
 func printAtCoordinate(row, col int, char rune) {
-	fmt.Printf(Colors.RED + "\033[%d;%dH%s", row, col, string(char) + Colors.ANSI_RESET) // Move cursor and print
+	defined_origin := []int{0,0}
+	// Define an array or slice of the available white colors
+	colorOptions := []string{Colors.WHITE, Colors.WHITE2, Colors.WHITE3, Colors.WHITE4}
+
+	// Pick a random color from the array
+	chosenColor := colorOptions[rand.Intn(len(colorOptions))]
+
+	// Print with the randomly chosen color
+	fmt.Printf(chosenColor + "\033[%d;%dH%s", defined_origin[0] + row, defined_origin[1] + col, string(char) + Colors.ANSI_RESET)
+
 }
 
 
@@ -147,8 +156,8 @@ func negativeLetter(blockLetter string, coordMap map[rune][][]int, delay time.Du
 }
 
 // Main function to process blocks and animate them concurrently
-func animateBlocks(blockList []string, coordMap map[rune][][]int) {
-	var wg sync.WaitGroup // WaitGroup to wait for all goroutines to finish
+func animateBlocks(blockList []string, coordMap map[rune][][]int, wg *sync.WaitGroup) {
+	defer wg.Done() // Ensure this finishes when done
 
 	for _, blockLetter := range blockList {
 		wg.Add(1) // Increment the WaitGroup counter
@@ -156,21 +165,50 @@ func animateBlocks(blockList []string, coordMap map[rune][][]int) {
 			defer wg.Done() // Decrement the counter when the goroutine finishes
 			blockCoords := getBlockCoordinates(blockLetter, coordMap)
 			delay := time.Duration(rand.Intn(950)+50) * time.Millisecond
-			if rand.Float64() > 0.5 || blockLetter=="e1" || blockLetter=="e2" || 
-			blockLetter=="o" || blockLetter=="S" || blockLetter=="g" {
+			if rand.Float64() > 0.5 || blockLetter == "e1" || blockLetter == "e2" || blockLetter == "o" || blockLetter == "S" || blockLetter == "g" {
 				positiveLetter(blockLetter, blockCoords, delay)
 			} else {
 				negativeLetter(blockLetter, blockCoords, delay)
 			}
 		}(blockLetter) // Pass blockLetter to the Goroutine
 	}
+}
 
-	wg.Wait() // Wait for all Goroutines to finish before exiting
+// Function to shuffle a slice of coordinates
+func shuffle(coords [][]int) [][]int {
+	rand.Seed(time.Now().UnixNano())
+	rand.Shuffle(len(coords), func(i, j int) {
+		coords[i], coords[j] = coords[j], coords[i]
+	})
+	return coords
+}
+
+// Function to print characters from a given range in a random order with adjustable speed
+func printInRandomOrder(array2D [][]rune, coordRange [2][2]int, speed time.Duration, wg *sync.WaitGroup) {
+	defer wg.Done() // Decrement the WaitGroup counter when done
+
+	// Store the coordinates from [row1,col1] to [row2,col2] in a slice
+	var coords [][]int
+	for col := coordRange[0][1]; col <= coordRange[1][1]; col++ {
+		coords = append(coords, []int{coordRange[0][0], col})
+	}
+
+	// Shuffle the coordinates for random printing order
+	shuffledCoords := shuffle(coords)
+
+	// Print each character at a shuffled coordinate with the specified speed
+	for _, coord := range shuffledCoords {
+		row, col := coord[0], coord[1]
+		char := array2D[row-1][col-1] // Fetch character from 2D array, adjust for 0-indexing
+		printAtCoordinate(row, col, char) // Print the actual character at its original position
+		time.Sleep(speed)
+	}
 }
 
 
 func Animate_call() {
 	rand.Seed(time.Now().UnixNano())
+
 	// Read the ASCII art file into a 2D array
 	array2D := readFileInto2DArray("resources/logo.txt")
 
@@ -180,6 +218,17 @@ func Animate_call() {
 	// List of blocks to animate
 	blockList := []string{"S", "o", "v", "e1", "r", "e2", "i", "g", "n"}
 
-	// Start the animation
-	animateBlocks(blockList, coordMap)
+	var wg sync.WaitGroup
+
+	// Start the animation of blocks
+	wg.Add(1)
+	go animateBlocks(blockList, coordMap, &wg)
+
+	// Start printing characters from [11,32] to [11,56] in random order
+	wg.Add(1)
+	go printInRandomOrder(array2D, [2][2]int{{11, 32}, {11, 56}}, 50*time.Millisecond, &wg)
+
+	// Wait for both animations to finish
+	wg.Wait()
 }
+
