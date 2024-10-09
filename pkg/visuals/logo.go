@@ -47,7 +47,7 @@ func Draw() {
 			case '\\':
 				fmt.Print(Colors.COMMENT + string(char) + Colors.ANSI_RESET)
 			default:
-				fmt.Print(Colors.WHITE + string(char) + Colors.ANSI_RESET)
+				fmt.Print(string(char) + Colors.ANSI_RESET)
 			}
 		}
 		fmt.Println()
