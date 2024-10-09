@@ -19,6 +19,9 @@ type TerminalColors struct {
 	YELLOW       string
 	BLACK        string
 	WHITE        string
+	WHITE2       string
+	WHITE3       string
+	WHITE4       string
 }
 
 //TODO: Determine if we want to keep this color scheme
@@ -28,6 +31,7 @@ type TerminalColors struct {
 // https://en.wikipedia.org/wiki/Dracula_(color_scheme)
 
 var Colors = TerminalColors{
+	ANSI_BOLD:    "\u001B[1m",
 	ANSI_BG:      "\033[48;2;",
 	ANSI_FG:      "\033[38;2;",
 	ANSI_RESET:   "\033[0m",
@@ -43,6 +47,8 @@ var Colors = TerminalColors{
 	RED:          "\033[38;2;255;85;85m",
 	YELLOW:       "\033[38;2;241;250;140m",
 	BLACK:        "\033[38;2;28;28;28m",
-	WHITE:        "\033[38;2;255;255;255m",
-	ANSI_BOLD:    "\u001B[1m",
+	WHITE:        "\033[38;2;227;227;227m",
+	WHITE2:       "\033[38;2;209;209;209m",
+	WHITE3:       "\033[38;2;195;195;195m",
+	WHITE4:       "\033[38;2;181;181;181m",
 }
