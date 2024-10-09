@@ -1,5 +1,7 @@
 package gui
 
+//TODO: Add movement between tabs
+
 import (
 	"fmt"
 	"github.com/jroimartin/gocui"
