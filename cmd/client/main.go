@@ -13,6 +13,8 @@ import (
 // Moved panel into main.
 
 func main() {
+	visuals.ClearScreen()
+	visuals.Animate_call()
 	// Launch visuals
 	visuals.ClearScreen()
 	// Print Sovereign ascii logo to the screen, 2 sec
