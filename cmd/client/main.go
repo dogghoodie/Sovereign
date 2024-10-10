@@ -7,19 +7,19 @@ import (
 	"fmt"
 	"os"
 	"strings"
-	"time"
 )
 
 // Moved panel into main.
 
 func main() {
+	// Animation stuff
 	visuals.ClearScreen()
 	visuals.Animate_call()
 	// Launch visuals
 	visuals.ClearScreen()
 	// Print Sovereign ascii logo to the screen, 2 sec
 	visuals.Draw()
-	time.Sleep(2000 * time.Millisecond)
+
 	visuals.ClearScreen()
 
 	// "dev panel" xD
