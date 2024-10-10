@@ -7,18 +7,26 @@ import (
 	"fmt"
 	"os"
 	"strings"
+	"github.com/muesli/termenv"
 )
 
 // Moved panel into main.
 
 func main() {
 	// Animation stuff
+	out := termenv.NewOutput(os.Stdout)
+    // Hide the cursor
+	out.HideCursor()
+	
 	visuals.ClearScreen()
 	visuals.Animate_call()
 	// Launch visuals
 	visuals.ClearScreen()
+
 	// Print Sovereign ascii logo to the screen, 2 sec
 	visuals.Draw()
+
+	out.ShowCursor()
 
 	visuals.ClearScreen()
 
