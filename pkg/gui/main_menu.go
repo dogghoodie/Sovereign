@@ -7,7 +7,8 @@ import (
 )
 
 //TODO: Look into changing tab border color for currentView
-// and figure out floating tabs.
+// and figure out floating tabs. Also, current text color
+// for white on inactive tab is fucked up.
 
 // GUI struct
 // This represents the graphical user interface of the application.
