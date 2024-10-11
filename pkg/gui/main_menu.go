@@ -94,9 +94,15 @@ func (g *GUI) layout(gui *gocui.Gui) error {
 		connectionsTab.Title = "Connections"
 
 		fmt.Fprintln(connectionsTab)
-		fmt.Fprintln(connectionsTab, " [1] 127.0.0.1")
-		fmt.Fprintln(connectionsTab, " [2] 127.0.0.1")
-		fmt.Fprintln(connectionsTab, " [3] 127.0.0.1")
+		fmt.Fprintln(connectionsTab)
+		fmt.Fprintln(connectionsTab, " Active                Inactive")
+		fmt.Fprintln(connectionsTab)
+		fmt.Fprintln(connectionsTab, " [1] 127.0.0.1        [1] 127.0.0.1")
+		fmt.Fprintln(connectionsTab, " [1] 127.0.0.1        [1] 127.0.0.1")
+		fmt.Fprintln(connectionsTab, " [1] 127.0.0.1        [1] 127.0.0.1")
+		fmt.Fprintln(connectionsTab, " [1] 127.0.0.1        [1] 127.0.0.1")
+		fmt.Fprintln(connectionsTab, " [1] 127.0.0.1        [1] 127.0.0.1")
+		fmt.Fprintln(connectionsTab, " [1] 127.0.0.1        [1] 127.0.0.1")
 	}
 
 	// chat tab
