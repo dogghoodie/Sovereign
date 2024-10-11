@@ -13,10 +13,11 @@ import (
 //TODO: 1. Fix GUI coloring on selection.
 //		2. Add functionality to messagebox.
 //		3. Figure out globe animation.
-//		4. Start working on connectivity.
-//		5. Integrate chat encryption.
-//		6. Package as stand-alone.
-//		7. Package as nvim plugin.
+//		4. Polish the GUI.
+//		5. Start working on connectivity.
+//		6. Integrate chat encryption.
+//		7. Package as stand-alone.
+//		8. Package as nvim plugin.
 
 // Entry function
 func main() {
