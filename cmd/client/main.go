@@ -5,37 +5,45 @@ import (
 	"Sovereign/pkg/visuals"
 	"bufio"
 	"fmt"
+	"github.com/muesli/termenv"
 	"os"
 	"strings"
-	"github.com/muesli/termenv"
 )
 
-// Moved panel into main.
+//TODO: 1. Fix GUI coloring on selection.
+//		2. Add functionality to messagebox.
+//		3. Figure out globe animation.
+//		4. Polish the GUI.
+//		5. Start working on connectivity.
+//		6. Integrate chat encryption.
+//		7. Package as stand-alone.
+//		8. Package as nvim plugin.
 
+// Entry function
 func main() {
-	// Animation stuff
-	out := termenv.NewOutput(os.Stdout)
-    // Hide the cursor
-	out.HideCursor()
-	
+	// Animation stuff.
+	// Initialize output handler (formatting).
+	outputHandler := termenv.NewOutput(os.Stdout)
+	// Hide the cursor.
+	outputHandler.HideCursor()
+	// Clear the terminal.
 	visuals.ClearScreen()
-	visuals.Animate_call()
-	// Launch visuals
+	// Start the launch animation.
+	visuals.Draw_Launch_Animation()
+	// Clear the terminal.
+	visuals.ClearScreen()
+	// Start the logo animation.
+	visuals.Draw_Logo()
+	// Bring back terminal cursor.
+	outputHandler.ShowCursor()
+	// Clear the terminal.
 	visuals.ClearScreen()
 
-	// Print Sovereign ascii logo to the screen, 2 sec
-	visuals.Draw()
-
-	out.ShowCursor()
-
-	visuals.ClearScreen()
-
-	// "dev panel" xD
+	// Draw the "dev panel". xD
 	fmt.Println("**************")
 	fmt.Println("* Dev Panel: *")
 	fmt.Println("**************")
 	fmt.Println()
-
 	// Testing all colors for fun
 	fmt.Println(
 		visuals.Colors.CYAN+"x",
@@ -49,43 +57,50 @@ func main() {
 		visuals.Colors.ANSI_RESET,
 	)
 	fmt.Println()
-
 	fmt.Println("commands: test gui, test conncetion, quit")
 
+	// Initialize bufio reader for input
 	reader := bufio.NewReader(os.Stdin)
 
 	// Create the run loop
 	for {
-		// Text prompt formatting
+		// Text prompt formatting.
 		fmt.Println("Enter command: ")
 		fmt.Print("$ ")
-		// Take in user input and check for error
+
+		// Initialize command as next string from user.
 		command, err := reader.ReadString('\n')
 		if err != nil {
 			fmt.Println("Error reading input: ", err)
+			// Prompt user again if error.
 			continue
 		}
+
+		// Trim extra white space off of input.
 		command = strings.TrimSpace(command)
 
+		// Handle the different inputs.
 		switch command {
-		// Start a connection with another user
+		// Test gui functionality.
 		case "test gui":
 			//TODO: Make this actually do some shit.
 			fmt.Println("Testing GUI.")
 			fmt.Println()
 			gui := gui.NewGUI()
 			gui.Start()
+		// Test user connectivity.
 		case "test connection":
 			//TODO: Make this actually do some shit.
 			fmt.Println(" - Add net code here.")
 			fmt.Println()
-		// Quit application
+		// Quit application.
 		case "quit":
 			fmt.Println("Quitting...")
 			fmt.Println()
-			// Exits loop and program
+			// Exits loop and program.
 			return
 		default:
+			// There's a fuckin list.
 			fmt.Println("Invalid command.")
 			fmt.Println()
 		}

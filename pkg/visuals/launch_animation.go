@@ -9,6 +9,9 @@ import (
 	"time"
 )
 
+//TODO: Figure out both unused parameter warnings.
+// ( unusedparams: unused paramter: blockLetter ).
+
 // Define character of interest
 var charsOfInterest = []rune{'$', '/', '\\', '|', '_', ' '}
 
@@ -205,13 +208,14 @@ func printInRandomOrder(array2D [][]rune, coordRange [2][2]int, speed time.Durat
 	// Print each character at a shuffled coordinate with the specified speed
 	for _, coord := range shuffledCoords {
 		row, col := coord[0], coord[1]
-		char := array2D[row-1][col-1] // Fetch character from 2D array, adjust for 0-indexing
+		char := array2D[row-1][col-1]     // Fetch character from 2D array, adjust for 0-indexing
 		printAtCoordinate(row, col, char) // Print the actual character at its original position
 		time.Sleep(speed)
 	}
 }
 
-func Animate_call() {
+// Start the animation.
+func Draw_Launch_Animation() {
 	// TODO: Update this to New(NewSource(seed))
 	rand.Seed(time.Now().UnixNano())
 
@@ -237,4 +241,3 @@ func Animate_call() {
 	// Wait for both animations to finish
 	wg.Wait()
 }
-
