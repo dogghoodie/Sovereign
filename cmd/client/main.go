@@ -5,9 +5,9 @@ import (
 	"Sovereign/pkg/visuals"
 	"bufio"
 	"fmt"
+	"github.com/muesli/termenv"
 	"os"
 	"strings"
-	"github.com/muesli/termenv"
 )
 
 // Moved panel into main.
@@ -15,16 +15,16 @@ import (
 func main() {
 	// Animation stuff
 	out := termenv.NewOutput(os.Stdout)
-    // Hide the cursor
+	// Hide the cursor
 	out.HideCursor()
-	
+
 	visuals.ClearScreen()
-	visuals.Animate_call()
+	visuals.Draw_Launch_Animation()
 	// Launch visuals
 	visuals.ClearScreen()
 
 	// Print Sovereign ascii logo to the screen, 2 sec
-	visuals.Draw()
+	visuals.Draw_Logo()
 
 	out.ShowCursor()
 

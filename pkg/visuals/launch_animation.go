@@ -215,7 +215,7 @@ func printInRandomOrder(array2D [][]rune, coordRange [2][2]int, speed time.Durat
 }
 
 // Start the animation.
-func Animate_call() {
+func Draw_Launch_Animation() {
 	// TODO: Update this to New(NewSource(seed))
 	rand.Seed(time.Now().UnixNano())
 

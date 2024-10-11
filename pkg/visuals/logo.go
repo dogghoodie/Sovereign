@@ -7,8 +7,9 @@ import (
 	"time"
 )
 
-func Draw() {
-
+// Draws the logo after the animation
+func Draw_Logo() {
+	// Initialize string array for filepaths.
 	var sourceFile [5]string
 
 	// Define relative path to the logo.txt file
@@ -18,20 +19,23 @@ func Draw() {
 	sourceFile[3] = "resources/logo4.txt"
 	sourceFile[4] = "resources/logo5.txt"
 
+	// Loop to print the 5 logo frames.
 	for i := 0; i < 5; i++ {
-
-		// Open the file
+		// Open the file.
 		file, err := os.Open(sourceFile[i])
 		if err != nil {
 			fmt.Println("Error openig file: ", err)
 			return
 		}
+
+		// Ensure file closes properly.
 		defer file.Close()
 
+		// Initialize scanner to read file.
 		scanner := bufio.NewScanner(file)
 
 		// This method is for more accurate
-		// control over each char for coloring
+		// control over each char for coloring.
 		/*	line := scanner.Text()
 			for _, char := range line {
 				switch char {
@@ -50,10 +54,13 @@ func Draw() {
 			}
 		*/
 
+		// For each line in the file print the line.
 		for scanner.Scan() {
 			line := scanner.Text()
 			fmt.Println(line)
 		}
+
+		// This is a little rigged setup for the glitch animation.
 		if i < 2 {
 			time.Sleep(120 * time.Millisecond)
 			ClearScreen()
@@ -64,6 +71,8 @@ func Draw() {
 			time.Sleep(1000 * time.Millisecond)
 			ClearScreen()
 		}
+
+		// Check for error reading the file.
 		if err := scanner.Err(); err != nil {
 			fmt.Println("Error reading file: ", err)
 		}
