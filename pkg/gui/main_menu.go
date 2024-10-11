@@ -30,7 +30,7 @@ func NewGUI() *GUI {
 func (g *GUI) Start() {
 	// Ensure GUI closes properly.
 	defer g.gui.Close()
-	// Enable disable raw ASCII.
+	// Toggle force ASCII
 	g.gui.ASCII = false
 	// Initialize the gui manager: layout.
 	g.gui.SetManagerFunc(g.layout)
