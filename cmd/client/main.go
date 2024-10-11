@@ -10,32 +10,31 @@ import (
 	"strings"
 )
 
-// Moved panel into main.
-
+// Entry function
 func main() {
-	// Animation stuff
-	out := termenv.NewOutput(os.Stdout)
-	// Hide the cursor
-	out.HideCursor()
-
+	// Animation stuff.
+	// Initialize output handler (formatting).
+	outputHandler := termenv.NewOutput(os.Stdout)
+	// Hide the cursor.
+	outputHandler.HideCursor()
+	// Clear the terminal.
 	visuals.ClearScreen()
+	// Start the launch animation.
 	visuals.Draw_Launch_Animation()
-	// Launch visuals
+	// Clear the terminal.
 	visuals.ClearScreen()
-
-	// Print Sovereign ascii logo to the screen, 2 sec
+	// Start the logo animation.
 	visuals.Draw_Logo()
-
-	out.ShowCursor()
-
+	// Bring back terminal cursor.
+	outputHandler.ShowCursor()
+	// Clear the terminal.
 	visuals.ClearScreen()
 
-	// "dev panel" xD
+	// Draw the "dev panel". xD
 	fmt.Println("**************")
 	fmt.Println("* Dev Panel: *")
 	fmt.Println("**************")
 	fmt.Println()
-
 	// Testing all colors for fun
 	fmt.Println(
 		visuals.Colors.CYAN+"x",
@@ -49,43 +48,50 @@ func main() {
 		visuals.Colors.ANSI_RESET,
 	)
 	fmt.Println()
-
 	fmt.Println("commands: test gui, test conncetion, quit")
 
+	// Initialize bufio reader for input
 	reader := bufio.NewReader(os.Stdin)
 
 	// Create the run loop
 	for {
-		// Text prompt formatting
+		// Text prompt formatting.
 		fmt.Println("Enter command: ")
 		fmt.Print("$ ")
-		// Take in user input and check for error
+
+		// Initialize command as next string from user.
 		command, err := reader.ReadString('\n')
 		if err != nil {
 			fmt.Println("Error reading input: ", err)
+			// Prompt user again if error.
 			continue
 		}
+
+		// Trim extra white space off of input.
 		command = strings.TrimSpace(command)
 
+		// Handle the different inputs.
 		switch command {
-		// Start a connection with another user
+		// Test gui functionality.
 		case "test gui":
 			//TODO: Make this actually do some shit.
 			fmt.Println("Testing GUI.")
 			fmt.Println()
 			gui := gui.NewGUI()
 			gui.Start()
+		// Test user connectivity.
 		case "test connection":
 			//TODO: Make this actually do some shit.
 			fmt.Println(" - Add net code here.")
 			fmt.Println()
-		// Quit application
+		// Quit application.
 		case "quit":
 			fmt.Println("Quitting...")
 			fmt.Println()
-			// Exits loop and program
+			// Exits loop and program.
 			return
 		default:
+			// There's a fuckin list.
 			fmt.Println("Invalid command.")
 			fmt.Println()
 		}
