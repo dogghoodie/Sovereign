@@ -27,7 +27,7 @@ func NewGUI() *GUI {
 
 // Start the GUI.
 func (g *GUI) Start() {
-	// Ensure terminal is restored after gui closes.
+	// Ensure GUI closes properly.
 	defer g.gui.Close()
 
 	// Initialize the gui manager: layout.
