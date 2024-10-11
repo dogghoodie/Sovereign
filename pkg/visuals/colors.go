@@ -33,6 +33,7 @@ type TerminalColors struct {
 // Color codes are all from :
 // https://en.wikipedia.org/wiki/Dracula_(color_scheme)
 
+// Color values
 var Colors = TerminalColors{
 	ANSI_BOLD:    "\u001B[1m",
 	ANSI_BG:      "\033[48;2;",
