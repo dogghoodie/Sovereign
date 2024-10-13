@@ -8,6 +8,8 @@ import (
 	"github.com/muesli/termenv"
 	"os"
 	"strings"
+	"Sovereign/pkg/encryption"
+	"strconv"
 )
 
 //TODO: 1. Fix GUI coloring on selection.
@@ -18,6 +20,12 @@ import (
 //		6. Integrate chat encryption.
 //		7. Package as stand-alone.
 //		8. Package as nvim plugin.
+
+
+var seed int64 = 12  // Default global seed
+var cipher = *encryption.SetSeed(seed)
+var encryptedMessage = "default_msg"
+var testMes = "abc"
 
 // Entry function
 func main() {
@@ -57,7 +65,7 @@ func main() {
 		visuals.Colors.ANSI_RESET,
 	)
 	fmt.Println()
-	fmt.Println("commands: test gui, test conncetion, quit")
+	fmt.Println("commands: test gui, test conncetion, quit, set seed, encrypt, decrypt")
 
 	// Initialize bufio reader for input
 	reader := bufio.NewReader(os.Stdin)
@@ -80,25 +88,47 @@ func main() {
 		command = strings.TrimSpace(command)
 
 		// Handle the different inputs.
-		switch command {
+		switch {
 		// Test gui functionality.
-		case "test gui":
+		case command == "test gui":
 			//TODO: Make this actually do some shit.
 			fmt.Println("Testing GUI.")
 			fmt.Println()
 			gui := gui.NewGUI()
 			gui.Start()
 		// Test user connectivity.
-		case "test connection":
+		case command == "test connection":
 			//TODO: Make this actually do some shit.
 			fmt.Println(" - Add net code here.")
 			fmt.Println()
 		// Quit application.
-		case "quit":
+		case command == "quit":
 			fmt.Println("Quitting...")
 			fmt.Println()
 			// Exits loop and program.
 			return
+		// Encrypts message to chinese
+		case len(command) >= 6 && command[:7] == "encrypt":
+			message := strings.TrimSpace(command[7:])
+			// call method from cipher
+			encryptedMessage = cipher.EncryptMessage(message)
+			fmt.Println("Encrypted message:", encryptedMessage)
+			testMes = "def"
+		// Decrypts message from chinese, could add handling for no encrypted message,
+		// but the encrypt and decrypt commands wont be manually called in final version anyway
+		case len(command) >= 6 && command[:7] == "decrypt":
+			decryptedMessage := cipher.DecryptMessage(encryptedMessage)
+			fmt.Println("Decrypted message:", decryptedMessage)
+			fmt.Println("testMes:", testMes)
+		// Sets seed for chinese encryption
+		case len(command) >= 7 && command[:8] == "set seed":
+			// turn seed string into int64
+			seed, err := strconv.ParseInt(strings.TrimSpace(command[8:]), 10, 64)
+			if err != nil { panic(err) }
+			// set new cipher based on new seed
+			cipher = *encryption.SetSeed(seed)
+			fmt.Println("Seed set")
+
 		default:
 			// There's a fuckin list.
 			fmt.Println("Invalid command.")
