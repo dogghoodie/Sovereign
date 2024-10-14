@@ -1,15 +1,15 @@
 package main
 
 import (
+	"Sovereign/pkg/encryption"
 	"Sovereign/pkg/gui"
 	"Sovereign/pkg/visuals"
 	"bufio"
 	"fmt"
 	"github.com/muesli/termenv"
 	"os"
-	"strings"
-	"Sovereign/pkg/encryption"
 	"strconv"
+	"strings"
 )
 
 //TODO: 1. Fix GUI coloring on selection.
@@ -21,8 +21,7 @@ import (
 //		7. Package as stand-alone.
 //		8. Package as nvim plugin.
 
-
-var seed int64 = 12  // Default global seed
+var seed int64 = 12 // Default global seed
 var cipher = *encryption.SetSeed(seed)
 var encryptedMessage = "default_msg"
 var testMes = "abc"
@@ -88,44 +87,74 @@ func main() {
 		command = strings.TrimSpace(command)
 
 		// Handle the different inputs.
-		switch {
+		switch command {
 		// Test gui functionality.
-		case command == "test gui":
+		case "test gui":
 			//TODO: Make this actually do some shit.
 			fmt.Println("Testing GUI.")
 			fmt.Println()
 			gui := gui.NewGUI()
 			gui.Start()
+
 		// Test user connectivity.
-		case command == "test connection":
+		case "test connection":
 			//TODO: Make this actually do some shit.
 			fmt.Println(" - Add net code here.")
 			fmt.Println()
 		// Quit application.
-		case command == "quit":
+		case "quit":
 			fmt.Println("Quitting...")
 			fmt.Println()
 			// Exits loop and program.
 			return
+
 		// Encrypts message to chinese
-		case len(command) >= 6 && command[:7] == "encrypt":
-			message := strings.TrimSpace(command[7:])
+		case "encrypt":
+			fmt.Printf("> ")
+			// enter message
+			message, err := reader.ReadString('\n')
+			if err != nil {
+				fmt.Println("Invalid input.")
+				continue
+			}
 			// call method from cipher
 			encryptedMessage = cipher.EncryptMessage(message)
-			fmt.Println("Encrypted message:", encryptedMessage)
+			fmt.Println("Encrypted message:\n< ", encryptedMessage)
+
 		// Decrypts message from chinese, could add handling for no encrypted message,
 		// but the encrypt and decrypt commands wont be manually called in final version anyway
-		case len(command) >= 6 && command[:7] == "decrypt":
+		case "decrypt":
+			fmt.Printf("> ")
+			// enter message
+			encryptedMessage, err := reader.ReadString('\n')
+			if err != nil {
+				fmt.Println("Invalid input.")
+				continue
+			}
+
 			decryptedMessage := cipher.DecryptMessage(encryptedMessage)
-			fmt.Println("Decrypted message:", decryptedMessage)
+			fmt.Println("Decrypted message:\n< ", decryptedMessage)
+			fmt.Println()
+
 		// Sets seed for chinese encryption
-		case len(command) >= 7 && command[:8] == "set seed":
+		case "set seed":
+			fmt.Printf("> ")
+			// enter seed
+			seedString, err := reader.ReadString('\n')
+			if err != nil {
+				fmt.Println("Invalid input.")
+				continue
+			}
 			// turn seed string into int64
-			seed, err := strconv.ParseInt(strings.TrimSpace(command[8:]), 10, 64)
-			if err != nil { panic(err) }
+			seed, err := strconv.ParseInt(strings.TrimSpace(seedString), 10, 64)
+			if err != nil {
+				fmt.Println("Invalid input.")
+				continue
+			}
 			// set new cipher based on new seed
 			cipher = *encryption.SetSeed(seed)
-			fmt.Println("Seed set")
+			fmt.Println("\nSeed set")
+			fmt.Println()
 
 		default:
 			// There's a fuckin list.
