@@ -90,7 +90,6 @@ func main() {
 		switch command {
 		// Test gui functionality.
 		case "test gui":
-			//TODO: Make this actually do some shit.
 			fmt.Println("Testing GUI.")
 			fmt.Println()
 			gui := gui.NewGUI()
@@ -146,7 +145,7 @@ func main() {
 				continue
 			}
 			// turn seed string into int64
-			seed, err := strconv.ParseInt(strings.TrimSpace(seedString), 10, 64)
+			seed, err = strconv.ParseInt(strings.TrimSpace(seedString), 10, 64)
 			if err != nil {
 				fmt.Println("Invalid input.")
 				continue
