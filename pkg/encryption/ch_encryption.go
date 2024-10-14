@@ -4,10 +4,47 @@ import (
 	"fmt"
 	"math/rand"
 	"strings"
+	"os"
+	"encoding/csv"
 )
 
 var enList = []string{"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"}
+
+// Function to extract the second column of a CSV file and return it as a list of strings
+func extractSecondColumn(filePath string) ([]string, error) {
+    // Open the CSV file
+    file, err := os.Open(filePath)
+    if err != nil {
+        return nil, fmt.Errorf("could not open file: %v", err)
+    }
+    defer file.Close()
+
+    // Read the CSV file
+    reader := csv.NewReader(file)
+    records, err := reader.ReadAll()
+    if err != nil {
+        return nil, fmt.Errorf("could not read CSV: %v", err)
+    }
+
+    // Create a list to store the second column
+    var secondColumn []string
+
+    // Loop through the records and extract the second column
+    for _, record := range records {
+        if len(record) > 1 {
+            secondColumn = append(secondColumn, record[1]) // Record[1] is the second column
+        }
+    }
+
+    return secondColumn, nil
+}
+
 var chList = []string{"的", "一", "是", "不", "了", "在", "人", "有", "我", "他", "这", "个", "们", "中", "来", "上", "大", "为", "和", "国", "地", "到", "以", "说", "时", "要"}
+
+// func init() {
+// 	chList, _ = extractSecondColumn("Sovereign/resources/hanziDB.csv")
+// }
+
 
 // Cipher struct as before
 type Cipher struct {

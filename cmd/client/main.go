@@ -113,13 +113,11 @@ func main() {
 			// call method from cipher
 			encryptedMessage = cipher.EncryptMessage(message)
 			fmt.Println("Encrypted message:", encryptedMessage)
-			testMes = "def"
 		// Decrypts message from chinese, could add handling for no encrypted message,
 		// but the encrypt and decrypt commands wont be manually called in final version anyway
 		case len(command) >= 6 && command[:7] == "decrypt":
 			decryptedMessage := cipher.DecryptMessage(encryptedMessage)
 			fmt.Println("Decrypted message:", decryptedMessage)
-			fmt.Println("testMes:", testMes)
 		// Sets seed for chinese encryption
 		case len(command) >= 7 && command[:8] == "set seed":
 			// turn seed string into int64
