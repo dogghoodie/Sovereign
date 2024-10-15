@@ -21,7 +21,8 @@ import (
 //		7. Package as stand-alone.
 //		8. Package as nvim plugin.
 
-var seed int64 = 12 // Default global seed
+// Global variables.
+var seed int64 = 12 // default
 var cipher = *encryption.SetSeed(seed)
 var encryptedMessage = "default_msg"
 var testMes = "abc"
@@ -100,6 +101,7 @@ func main() {
 			//TODO: Make this actually do some shit.
 			fmt.Println(" - Add net code here.")
 			fmt.Println()
+
 		// Quit application.
 		case "quit":
 			fmt.Println("Quitting...")
