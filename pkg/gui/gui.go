@@ -7,14 +7,14 @@ import (
 )
 
 //TODO: Look into changing tab border color for currentView
-// and figure out floating tabs. Also, current text color
-// for white on inactive tab is fucked up.
+// or some sort of way to indicated current tab more obviously.
 
 // GUI struct
 // This represents the graphical user interface of the application.
 // It holds the gocui.Gui instance and manages the layout, keybindings, and navigation.
 type GUI struct {
-	gui *gocui.Gui
+	gui        *gocui.Gui
+	TitleColor gocui.Attribute
 }
 
 // Initialize new GUI.
@@ -56,8 +56,6 @@ func (g *GUI) Start() {
 		//
 		// Set the intial foreground to green.
 		initialView.FgColor = gocui.ColorGreen
-		// Set the selected foreground to green.
-		initialView.SelFgColor = gocui.ColorGreen
 		return nil
 	})
 
@@ -128,7 +126,7 @@ func (g *GUI) layout(gui *gocui.Gui) error {
 		messageTab.Editable = true
 		messageTab.Wrap = true
 		fmt.Fprintln(messageTab)
-		fmt.Fprintln(messageTab, " ")
+		fmt.Fprintln(messageTab, ">")
 	}
 
 	return nil
@@ -136,10 +134,10 @@ func (g *GUI) layout(gui *gocui.Gui) error {
 
 // Navigation map for tabs.
 var viewNavigation = map[string]map[string]string{
-	"chat":        {"left": "settings", "down": "chat"},
-	"message":     {"left": "connections", "up": "message"},
+	"chat":        {"left": "settings", "down": "message"},
+	"message":     {"left": "connections", "up": "chat"},
 	"settings":    {"right": "chat", "down": "connections"},
-	"connections": {"right": "chat", "up": "settings"},
+	"connections": {"right": "message", "up": "settings"},
 }
 
 // Movement function.
@@ -152,15 +150,14 @@ func (g *GUI) move(gui *gocui.Gui, v *gocui.View, direction string) error {
 	// Retrieve current view (tab).
 	currentView := v.Name()
 
-	// Set the current tab to white before moving.
-	v.FgColor = gocui.ColorWhite
-
 	// Check if target tab exists and initalize.
 	if targetViewName, ok := viewNavigation[currentView][direction]; ok {
 		nextView, err := gui.View(targetViewName)
 		if err != nil {
 			return err
 		}
+		// Set the current tab to white before moving.
+		v.FgColor = gocui.ColorDefault
 		// Set the target view as the current view.
 		_, err = gui.SetCurrentView(targetViewName)
 		if err != nil {
@@ -168,49 +165,7 @@ func (g *GUI) move(gui *gocui.Gui, v *gocui.View, direction string) error {
 		}
 		// Change the color of the current view.
 		nextView.FgColor = gocui.ColorGreen
-	}
-
-	return nil
-}
-
-// Initialize keybindings.
-func (g *GUI) setKeyBindings() error {
-	// Bind h to move left.
-	if err := g.gui.SetKeybinding("", 'h', gocui.ModNone, func(gui *gocui.Gui, v *gocui.View) error {
-		return g.move(gui, v, "left")
-	}); err != nil {
-		return err
-	}
-
-	// Bind j to move down.
-	if err := g.gui.SetKeybinding("", 'j', gocui.ModNone, func(gui *gocui.Gui, v *gocui.View) error {
-		return g.move(gui, v, "down")
-	}); err != nil {
-		return err
-	}
-
-	// Bind k to move up.
-	if err := g.gui.SetKeybinding("", 'k', gocui.ModNone, func(gui *gocui.Gui, v *gocui.View) error {
-		return g.move(gui, v, "up")
-	}); err != nil {
-		return err
-	}
-
-	// Bind l to move right.
-	if err := g.gui.SetKeybinding("", 'l', gocui.ModNone, func(gui *gocui.Gui, v *gocui.View) error {
-		return g.move(gui, v, "right")
-	}); err != nil {
-		return err
-	}
-
-	// Bind Ctrl C to quit.
-	if err := g.gui.SetKeybinding("", gocui.KeyCtrlC, gocui.ModNone, g.quit); err != nil {
-		log.Panicln(err)
-	}
-
-	// Bind q to quit.
-	if err := g.gui.SetKeybinding("", 'q', gocui.ModNone, g.quit); err != nil {
-		log.Panicln(err)
+		// nextView.TitleColor = gocui.ColorGreen
 	}
 
 	return nil
