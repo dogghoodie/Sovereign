@@ -164,6 +164,38 @@ func negativeLetter(blockLetter string, coordMap map[rune][][]int, delay time.Du
 	}
 }
 
+// Helper function to shuffle an array
+func shuffle_array(arr []int) {
+    rand.Seed(time.Now().UnixNano())
+    rand.Shuffle(len(arr), func(i, j int) {
+        arr[i], arr[j] = arr[j], arr[i]
+    })
+}
+
+// Function that generates the dictionary
+func generateDict(numNegative int) map[string]int {
+    // Create an array of length 3 with numNegative zeros and the rest as ones
+    arr := make([]int, 3)
+    for i := 0; i < numNegative; i++ {
+        arr[i] = 0
+    }
+    for i := numNegative; i < 3; i++ {
+        arr[i] = 1
+    }
+
+    // Shuffle the array
+    shuffle_array(arr)
+
+    // Assign shuffled array values to "r", "v", and "n"
+    dictFinal := map[string]int{
+        "r": arr[0],
+        "v": arr[1],
+        "n": arr[2],
+    }
+
+    return dictFinal
+}
+
 // Main function to process blocks and animate them concurrently
 func animateBlocks(blockList []string, coordMap map[rune][][]int, wg *sync.WaitGroup) {
 	defer wg.Done() // Ensure this finishes when done
@@ -174,10 +206,25 @@ func animateBlocks(blockList []string, coordMap map[rune][][]int, wg *sync.WaitG
 			defer wg.Done() // Decrement the counter when the goroutine finishes
 			blockCoords := getBlockCoordinates(blockLetter, coordMap)
 			delay := time.Duration(rand.Intn(950)+50) * time.Millisecond
-			if rand.Float64() > 0.5 || blockLetter == "e1" || blockLetter == "e2" || blockLetter == "o" || blockLetter == "S" || blockLetter == "g" {
-				positiveLetter(blockLetter, blockCoords, delay)
+
+			// Seed the random number generator
+			rand.Seed(time.Now().UnixNano())
+
+			// Generate numNegative (random number between 1 and 3 inclusive)
+			numNegative := rand.Intn(3) + 1
+
+			// Get the dictionary
+			dict := generateDict(numNegative)
+
+			// check if letter is in dict; r, v, n
+			if value, exists := dict[blockLetter]; exists {
+				if value == 1 { // 1 for positive letters
+					positiveLetter(blockLetter, blockCoords, delay)
+				} else { // 0 for negative letters
+					negativeLetter(blockLetter, blockCoords, delay)
+				}
 			} else {
-				negativeLetter(blockLetter, blockCoords, delay)
+				positiveLetter(blockLetter, blockCoords, delay)
 			}
 		}(blockLetter) // Pass blockLetter to the Goroutine
 	}
