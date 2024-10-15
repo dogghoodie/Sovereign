@@ -65,7 +65,7 @@ func main() {
 		visuals.Colors.ANSI_RESET,
 	)
 	fmt.Println()
-	fmt.Println("commands: test gui, test conncetion, quit, set seed, encrypt, decrypt")
+	fmt.Println("commands: test animation, test gui, test conncetion, quit, set seed, encrypt, decrypt")
 
 	// Initialize bufio reader for input
 	reader := bufio.NewReader(os.Stdin)
@@ -89,6 +89,44 @@ func main() {
 
 		// Handle the different inputs.
 		switch command {
+		// Test the animation scene
+		// vvv OHHH THE HORRORRRR !!
+		case "test animation":
+			// Initialize output handler (formatting).
+			outputHandler := termenv.NewOutput(os.Stdout)
+			// Hide the cursor.
+			outputHandler.HideCursor()
+			// Clear the terminal.
+			visuals.ClearScreen()
+			// Start the launch animation.
+			visuals.Draw_Launch_Animation()
+			// Clear the terminal.
+			visuals.ClearScreen()
+			// Start the logo animation.
+			visuals.Draw_Logo()
+			// Bring back terminal cursor.
+			outputHandler.ShowCursor()
+			// Clear the terminal.
+			visuals.ClearScreen()
+			// Draw the "dev panel". xD
+			fmt.Println("**************")
+			fmt.Println("* Dev Panel: *")
+			fmt.Println("**************")
+			fmt.Println()
+			// Testing all colors for fun
+			fmt.Println(
+				visuals.Colors.CYAN+"x",
+				visuals.Colors.GREEN+"x",
+				visuals.Colors.ORANGE+"x",
+				visuals.Colors.PINK+"x",
+				visuals.Colors.PURPLE+"x",
+				visuals.Colors.RED+"x",
+				visuals.Colors.YELLOW+"x",
+				visuals.Colors.BLACK+"x",
+				visuals.Colors.ANSI_RESET,
+			)
+			fmt.Println()
+			fmt.Println("commands: test animation, test gui, test conncetion, quit, set seed, encrypt, decrypt")
 		// Test gui functionality.
 		case "test gui":
 			fmt.Println("Testing GUI.")
@@ -101,13 +139,6 @@ func main() {
 			//TODO: Make this actually do some shit.
 			fmt.Println(" - Add net code here.")
 			fmt.Println()
-
-		// Quit application.
-		case "quit":
-			fmt.Println("Quitting...")
-			fmt.Println()
-			// Exits loop and program.
-			return
 
 		// Encrypts message to chinese
 		case "encrypt":
@@ -157,6 +188,35 @@ func main() {
 			fmt.Println("\nSeed set")
 			fmt.Println()
 
+		// Quit application.
+		case "quit":
+			fmt.Println("Quitting...")
+			fmt.Println()
+			// Exits loop and program.
+			return
+
+		case "clear":
+			// AAAAHHHHH I HATE ITTT I HATE IT
+			visuals.ClearScreen()
+			// Draw the "dev panel". xD
+			fmt.Println("**************")
+			fmt.Println("* Dev Panel: *")
+			fmt.Println("**************")
+			fmt.Println()
+			// Testing all colors for fun
+			fmt.Println(
+				visuals.Colors.CYAN+"x",
+				visuals.Colors.GREEN+"x",
+				visuals.Colors.ORANGE+"x",
+				visuals.Colors.PINK+"x",
+				visuals.Colors.PURPLE+"x",
+				visuals.Colors.RED+"x",
+				visuals.Colors.YELLOW+"x",
+				visuals.Colors.BLACK+"x",
+				visuals.Colors.ANSI_RESET,
+			)
+			fmt.Println()
+			fmt.Println("commands: test animation, test gui, test conncetion, quit, set seed, encrypt, decrypt")
 		default:
 			// There's a fuckin list.
 			fmt.Println("Invalid command.")
