@@ -120,6 +120,13 @@ func (g *GUI) layout(gui *gocui.Gui) error {
 			return err
 		}
 		messageTab.Title = "Message"
+
+		// TODO: Make messageTab editable, save input somewhere as 'message'
+		// reading this for now:
+		// https://gist.github.com/jroimartin/3b2e943a3811d795e0718b4a95b89bec
+
+		messageTab.Editable = true
+		messageTab.Wrap = true
 		fmt.Fprintln(messageTab)
 		fmt.Fprintln(messageTab, " ")
 	}
