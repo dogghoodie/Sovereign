@@ -6,12 +6,8 @@ import (
 	"log"
 )
 
-//TODO: Look into changing tab border color for currentView
-// or some sort of way to indicated current tab more obviously.
-// .
-// .
-// .
-// TACTICAL NUKE INCOMING!!!!!!!!!!!!! IT'S OVER!!!!!!!!!!!!
+// TODO :We can pretty much get rid of all of this shit later and restart.
+// When we do this, change settings to be a popup.
 
 // GUI struct
 // This represents the graphical user interface of the application.
