@@ -1,5 +1,7 @@
 package gui
 
+// This setup can probably just stay the same.
+
 import (
 	"github.com/jroimartin/gocui"
 	"log"
