@@ -1,6 +1,7 @@
 package gui
 
 // This setup can probably just stay the same.
+// TODO : Add keybind for settings pop up menu.
 
 import (
 	"github.com/jroimartin/gocui"
