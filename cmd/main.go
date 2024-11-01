@@ -12,15 +12,6 @@ import (
 	"strings"
 )
 
-//TODO: 1. Fix GUI coloring on selection.
-//		2. Add functionality to messagebox.
-//		3. Figure out globe animation.
-//		4. Polish the GUI.
-//		5. Start working on connectivity.
-//		6. Integrate chat encryption.
-//		7. Package as stand-alone.
-//		8. Package as nvim plugin.
-
 // Global variables.
 var seed int64 = 12 // default
 var cipher = *encryption.SetSeed(seed)
@@ -29,24 +20,6 @@ var testMes = "abc"
 
 // Entry function
 func main() {
-	// Animation stuff.
-	// Initialize output handler (formatting).
-	outputHandler := termenv.NewOutput(os.Stdout)
-	// Hide the cursor.
-	outputHandler.HideCursor()
-	// Clear the terminal.
-	visuals.ClearScreen()
-	// Start the launch animation.
-	visuals.Draw_Launch_Animation()
-	// Clear the terminal.
-	visuals.ClearScreen()
-	// Start the logo animation.
-	visuals.Draw_Logo()
-	// Bring back terminal cursor.
-	outputHandler.ShowCursor()
-	// Clear the terminal.
-	visuals.ClearScreen()
-
 	// Draw the "dev panel". xD
 	fmt.Println("**************")
 	fmt.Println("* Dev Panel: *")
@@ -127,11 +100,11 @@ func main() {
 			)
 			fmt.Println()
 			fmt.Println("commands: test animation, test gui, test conncetion, quit, set seed, encrypt, decrypt")
+
 		// Test gui functionality.
 		case "test gui":
 			fmt.Println("Testing GUI.")
 			fmt.Println()
-			gui := gui.NewGUI()
 			gui.Start()
 
 		// Test user connectivity.
@@ -195,6 +168,7 @@ func main() {
 			// Exits loop and program.
 			return
 
+		// Clear screen
 		case "clear":
 			// AAAAHHHHH I HATE ITTT I HATE IT
 			visuals.ClearScreen()
@@ -217,6 +191,8 @@ func main() {
 			)
 			fmt.Println()
 			fmt.Println("commands: test animation, test gui, test conncetion, quit, set seed, encrypt, decrypt")
+
+		// Invalid command
 		default:
 			// There's a fuckin list.
 			fmt.Println("Invalid command.")
