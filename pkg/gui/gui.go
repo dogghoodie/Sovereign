@@ -12,7 +12,6 @@ func configuration(g *gocui.Gui) {
 	g.ASCII = false
 	g.Highlight = true
 	g.Cursor = true
-	g.SelFgColor = gocui.ColorDefault
 }
 
 func initializeView(g *gocui.Gui) error {
