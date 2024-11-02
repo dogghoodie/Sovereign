@@ -17,7 +17,7 @@ func configuration(g *gocui.Gui) {
 func initializeView(g *gocui.Gui) error {
 	g.Update(func(gui *gocui.Gui) error {
 		// Set initial tab to settings (top left).
-		if _, err := g.SetCurrentView("settings"); err != nil {
+		if _, err := g.SetCurrentView("connections"); err != nil {
 			log.Panicln("Error setting current view: ", err)
 		}
 
@@ -40,7 +40,7 @@ func Start() {
 	// Ensure GUI closes properly.
 	defer g.Close()
 
-	g.SetManagerFunc(Layout)
+	g.SetManagerFunc(SetupMainViews)
 	configuration(g)
 	initializeView(g)
 
