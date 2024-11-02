@@ -47,6 +47,8 @@ func setKeyBindings(g *gocui.Gui) error {
 
 	// Bind ESC to close popups.
 	if err := g.SetKeybinding("", gocui.KeyEsc, gocui.ModNone, func(gui *gocui.Gui, v *gocui.View) error {
+		// Why isn't this deleting??
+		// could be escape key not binding
 		return ClosePopup(g, v)
 	}); err != nil {
 		return err
