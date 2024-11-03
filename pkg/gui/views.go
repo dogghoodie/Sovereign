@@ -12,6 +12,8 @@ var viewNavigation = map[string]map[string]string{
 	"connections": {"right": "message"},
 }
 
+var previousViewName string
+
 func InitializeViews(g *gocui.Gui) error {
 	if err := SetupMainViews(g); err != nil {
 		return err
@@ -65,8 +67,18 @@ func SetupMainViews(g *gocui.Gui) error {
 }
 
 func ShowSettings(g *gocui.Gui, v *gocui.View) error {
+	// If we're already in settings, don't reopen settings
+	if existingPopup, _ := g.View("popup_settings"); existingPopup != nil {
+		return nil
+	}
+
 	// Get max x,y values for gui grid.
 	maxX, maxY := g.Size()
+
+	// Save previous view
+	if v != nil {
+		previousViewName = v.Name()
+	}
 
 	// Popup dimensions
 	width, height := 70, 20
