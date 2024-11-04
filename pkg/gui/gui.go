@@ -48,6 +48,7 @@ func Start() {
 	if err := setKeyBindings(g); err != nil {
 		log.Panicln(err)
 	}
+
 	// Keep gui running, and log any error other than quit.
 	if err := g.MainLoop(); err != nil && err != gocui.ErrQuit {
 		log.Panicln(err)

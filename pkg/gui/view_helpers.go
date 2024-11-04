@@ -12,6 +12,7 @@ func ClosePopup(g *gocui.Gui, v *gocui.View) error {
 			return err
 		}
 
+		// Move back to previous view
 		if previousViewName != "" {
 			if _, err := g.SetCurrentView(previousViewName); err != nil {
 				return err
