@@ -5,6 +5,13 @@ import (
 	"github.com/jroimartin/gocui"
 )
 
+// TODO : Today we should figure out a better sizing method so that the views
+// look better on desktop .
+// 38
+// 48
+// 58
+// 79
+
 // Navigation map for tabs.
 var viewNavigation = map[string]map[string]string{
 	"chat":        {"left": "connections", "down": "message"},
@@ -81,7 +88,7 @@ func ShowSettings(g *gocui.Gui, v *gocui.View) error {
 	}
 
 	// Popup dimensions
-	width, height := 70, 20
+	width, height := 60, 20
 
 	x0, y0 := (maxX-width)/2, (maxY-height)/2
 	x1, y1 := x0+width, y0+height
