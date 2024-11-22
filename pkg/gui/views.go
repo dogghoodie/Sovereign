@@ -49,8 +49,8 @@ func SetupMainViews(g *gocui.Gui) error {
 			return err
 		}
 		chatboxTab.Title = "Chat"
-		fmt.Fprintln(chatboxTab)
-		fmt.Fprintln(chatboxTab, " ")
+		chatboxTab.Wrap = true
+		fmt.Fprintln(chatboxTab, "Messages:")
 	}
 
 	// Message tab for writing to the chat.
@@ -68,6 +68,12 @@ func SetupMainViews(g *gocui.Gui) error {
 		messageTab.Wrap = true
 		fmt.Fprintln(messageTab)
 		fmt.Fprintln(messageTab, ">")
+		// Bind s to open settings.
+		if err := g.SetKeybinding("", 't', gocui.ModNone, func(gui *gocui.Gui, v *gocui.View) error {
+			return SendMessage(g, v)
+		}); err != nil {
+			return err
+		}
 	}
 
 	return nil

@@ -1,6 +1,7 @@
 package gui
 
 import (
+	"fmt"
 	"github.com/jroimartin/gocui"
 )
 
@@ -19,6 +20,29 @@ func ClosePopup(g *gocui.Gui, v *gocui.View) error {
 			}
 		}
 	}
+
+	return nil
+}
+
+func SendMessage(g *gocui.Gui, v *gocui.View) error {
+	message := v.Buffer()
+	AppendToChat(g, message)
+	v.Clear()
+
+	return nil
+}
+
+func AppendToChat(g *gocui.Gui, message string) error {
+	g.Update(func(g *gocui.Gui) error {
+		chatboxTab, err := g.View("chat")
+		if err != nil {
+			return err
+		}
+		fmt.Fprintln(chatboxTab, message)
+		_, y := chatboxTab.Size()
+		chatboxTab.SetOrigin(0, y)
+		return nil
+	})
 
 	return nil
 }
