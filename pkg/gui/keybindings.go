@@ -1,7 +1,8 @@
 package gui
 
-// This setup can probably just stay the same.
-// TODO : Add keybind for settings pop up menu.
+// TODO :
+// figure out why ESC isn't binding properly or pick another
+// or pick another key to close popups.
 
 import (
 	"github.com/jroimartin/gocui"
@@ -10,6 +11,9 @@ import (
 
 // Initialize keybindings.
 func setKeyBindings(g *gocui.Gui) error {
+
+	// NAVIGATION
+
 	// Bind h to move left.
 	if err := g.SetKeybinding("", 'h', gocui.ModNone, func(gui *gocui.Gui, v *gocui.View) error {
 		return Move(gui, v, "left")
@@ -38,6 +42,8 @@ func setKeyBindings(g *gocui.Gui) error {
 		return err
 	}
 
+	// SETTINGS
+
 	// Bind s to open settings.
 	if err := g.SetKeybinding("", 's', gocui.ModNone, func(gui *gocui.Gui, v *gocui.View) error {
 		return ShowSettings(g, v)
@@ -45,14 +51,16 @@ func setKeyBindings(g *gocui.Gui) error {
 		return err
 	}
 
+	// CLOSE POPUPS
+
 	// Bind b to close popups. (b for back I guess. ESC isn't workign)
 	if err := g.SetKeybinding("", 'b', gocui.ModNone, func(gui *gocui.Gui, v *gocui.View) error {
-		// Why isn't this deleting??
-		// could be escape key not binding
 		return ClosePopup(g, v)
 	}); err != nil {
 		return err
 	}
+
+	// CLOSE APPLICATION
 
 	// Bind Ctrl C to quit.
 	if err := g.SetKeybinding("", gocui.KeyCtrlC, gocui.ModNone, Quit); err != nil {
