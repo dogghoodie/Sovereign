@@ -6,7 +6,6 @@ import (
 	"Sovereign/pkg/visuals"
 	"bufio"
 	"fmt"
-	"github.com/muesli/termenv"
 	"os"
 	"strconv"
 	"strings"
@@ -20,86 +19,30 @@ var testMes = "abc"
 
 // Entry function
 func main() {
-	// Draw the "dev panel". xD
-	fmt.Println("**************")
-	fmt.Println("* Dev Panel: *")
-	fmt.Println("**************")
-	fmt.Println()
-	// Testing all colors for fun
-	fmt.Println(
-		visuals.Colors.CYAN+"x",
-		visuals.Colors.GREEN+"x",
-		visuals.Colors.ORANGE+"x",
-		visuals.Colors.PINK+"x",
-		visuals.Colors.PURPLE+"x",
-		visuals.Colors.RED+"x",
-		visuals.Colors.YELLOW+"x",
-		visuals.Colors.BLACK+"x",
-		visuals.Colors.ANSI_RESET,
-	)
-	fmt.Println()
-	fmt.Println("commands: test animation, test gui, test conncetion, quit, set seed, encrypt, decrypt")
-
+	visuals.Print_Panel()
 	// Initialize bufio reader for input
 	reader := bufio.NewReader(os.Stdin)
-
 	// Create the run loop
 	for {
 		// Text prompt formatting.
 		fmt.Println("Enter command: ")
 		fmt.Print("$ ")
-
 		// Initialize command as next string from user.
 		command, err := reader.ReadString('\n')
 		if err != nil {
 			fmt.Println("Error reading input: ", err)
-			// Prompt user again if error.
 			continue
 		}
 
 		// Trim extra white space off of input.
 		command = strings.TrimSpace(command)
 
-		// Handle the different inputs.
 		switch command {
+
 		// Test the animation scene
-		// vvv OHHH THE HORRORRRR !!
 		case "test animation":
-			// Initialize output handler (formatting).
-			outputHandler := termenv.NewOutput(os.Stdout)
-			// Hide the cursor.
-			outputHandler.HideCursor()
-			// Clear the terminal.
-			visuals.ClearScreen()
-			// Start the launch animation.
-			visuals.Draw_Launch_Animation()
-			// Clear the terminal.
-			visuals.ClearScreen()
-			// Start the logo animation.
-			visuals.Draw_Logo()
-			// Bring back terminal cursor.
-			outputHandler.ShowCursor()
-			// Clear the terminal.
-			visuals.ClearScreen()
-			// Draw the "dev panel". xD
-			fmt.Println("**************")
-			fmt.Println("* Dev Panel: *")
-			fmt.Println("**************")
-			fmt.Println()
-			// Testing all colors for fun
-			fmt.Println(
-				visuals.Colors.CYAN+"x",
-				visuals.Colors.GREEN+"x",
-				visuals.Colors.ORANGE+"x",
-				visuals.Colors.PINK+"x",
-				visuals.Colors.PURPLE+"x",
-				visuals.Colors.RED+"x",
-				visuals.Colors.YELLOW+"x",
-				visuals.Colors.BLACK+"x",
-				visuals.Colors.ANSI_RESET,
-			)
-			fmt.Println()
-			fmt.Println("commands: test animation, test gui, test conncetion, quit, set seed, encrypt, decrypt")
+			visuals.Intro()
+			visuals.Print_Panel()
 
 		// Test gui functionality.
 		case "test gui":
@@ -113,7 +56,7 @@ func main() {
 			fmt.Println(" - Add net code here.")
 			fmt.Println()
 
-		// Encrypts message to chinese
+		// Encrypts message
 		case "encrypt":
 			fmt.Printf("> ")
 			// enter message
@@ -126,8 +69,7 @@ func main() {
 			encryptedMessage = cipher.EncryptMessage(message)
 			fmt.Println("Encrypted message:\n< ", encryptedMessage)
 
-		// Decrypts message from chinese, could add handling for no encrypted message,
-		// but the encrypt and decrypt commands wont be manually called in final version anyway
+		// Decrypt message
 		case "decrypt":
 			fmt.Printf("> ")
 			// enter message
@@ -141,7 +83,7 @@ func main() {
 			fmt.Println("Decrypted message:\n< ", decryptedMessage)
 			fmt.Println()
 
-		// Sets seed for chinese encryption
+		// Sets seed for random chinese encryption
 		case "set seed":
 			fmt.Printf("> ")
 			// enter seed
@@ -161,36 +103,18 @@ func main() {
 			fmt.Println("\nSeed set")
 			fmt.Println()
 
+		// Clear screen
+		case "clear":
+			visuals.ClearScreen()
+			// Draw the "dev panel". xD
+			visuals.Print_Panel()
+
 		// Quit application.
 		case "quit":
 			fmt.Println("Quitting...")
 			fmt.Println()
 			// Exits loop and program.
 			return
-
-		// Clear screen
-		case "clear":
-			// AAAAHHHHH I HATE ITTT I HATE IT
-			visuals.ClearScreen()
-			// Draw the "dev panel". xD
-			fmt.Println("**************")
-			fmt.Println("* Dev Panel: *")
-			fmt.Println("**************")
-			fmt.Println()
-			// Testing all colors for fun
-			fmt.Println(
-				visuals.Colors.CYAN+"x",
-				visuals.Colors.GREEN+"x",
-				visuals.Colors.ORANGE+"x",
-				visuals.Colors.PINK+"x",
-				visuals.Colors.PURPLE+"x",
-				visuals.Colors.RED+"x",
-				visuals.Colors.YELLOW+"x",
-				visuals.Colors.BLACK+"x",
-				visuals.Colors.ANSI_RESET,
-			)
-			fmt.Println()
-			fmt.Println("commands: test animation, test gui, test conncetion, quit, set seed, encrypt, decrypt")
 
 		// Invalid command
 		default:
